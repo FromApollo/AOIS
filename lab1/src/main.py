@@ -14,8 +14,8 @@ print(f"Дополнительный код: {additional}")
 print('\n')
 print("2 ое задание -------------------------------")
 print("\n")
-n1 = 12
-n2 = 5
+n1 = 10
+n2 = -15
 result_binary = add_in_additional_code(n1, n2)
 print(f"Сложение чисел {n1} и {n2} в дополнительном коде:")
 print(f"Результат в дополнительном коде: {result_binary}")
@@ -36,8 +36,8 @@ print(f"Результат в десятичном виде: {decimal}")
 print("\n")
 print("4 ое задание -------------------------------")
 print("\n")
-n1 = 15
-n2 = -2
+n1 = 4
+n2 = 3
 result_direct = multiply_in_direct_code(n1, n2)
 print(f"Произведение чисел {n1} и {n2} в прямом коде: {result_direct}")
 decimal = direct_to_decimal(result_direct)
@@ -46,8 +46,9 @@ print("\n")
 
 print("5 ое задание -------------------------------")
 print("\n")
-n1 = 15
-n2 = 4
+n1 = 20
+n2 = 80
+
 result = divide_direct_code(n1, n2, precision=5)
 print(f"Деление чисел {n1} и {n2}: {result}")
 decimal = fixed_point_to_decimal(result)
@@ -57,7 +58,7 @@ print("\n")
 print("6 ое задание -------------------------------")
 print("\n")
 n1 = 9.75
-n2 = 18.5625
+n2 = 18.5
 result = add_float(n1, n2)
 print(f"Сложение ПОЛОЖИТЕЛЬНЫХ чисел {n1} и {n2}: \n{result}")
 decimal = floating_point_to_decimal(result)

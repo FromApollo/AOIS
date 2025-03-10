@@ -10,7 +10,7 @@ def decimal_to_binary(num, bits=7):
 
 
 def to_direct(num):
-    if not (-128 <= num <= 127):
+    if not (MIN_INT <= num <= MAX_INT):
         raise ValueError("Число выходит за 8-битный диапазон")
 
     sign_bit = '1' if num < 0 else '0'
@@ -22,7 +22,7 @@ def to_direct(num):
 
 
 def to_inverse(num):
-    if not (-128 <= num <= 127):
+    if not (MIN_INT <= num <= MAX_INT):
         raise ValueError("Число выходит за 8-битный диапазон")
 
     sign_bit = '1' if num < 0 else '0'
@@ -63,7 +63,7 @@ def to_additional(num):
 
 def float_to_ieee754(num):
     if num == 0:
-        return '0' * 32
+        return '0' * IEEE_TOTAL_BITS
 
     exp = 0
     mantissa = num

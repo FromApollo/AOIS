@@ -38,7 +38,7 @@ def subtract_in_additional_code(num1, num2):
 
 
 def multiply_in_direct_code(num1, num2):
-    if not (-128 <= num1 <= 127 and -128 <= num2 <= 127):
+    if not (MIN_INT <= num1 <= MAX_INT and MIN_INT <= num2 <= MAX_INT):
         raise ValueError("Число выходит за 8-битный диапазон")
 
     direct1 = to_direct(abs(num1))
@@ -121,39 +121,43 @@ def divide_direct_code(dividend, divisor, precision=5):
     if (dividend >= 0 > divisor) or (dividend < 0 <= divisor):
         is_negative_res = True
 
-    dividend = to_direct(abs(dividend)).lstrip('0')
+    dividend = abs(dividend)
     divisor = abs(divisor)
 
-    if divisor == '0':
-        raise ZeroDivisionError
+    if divisor == 0:
+        raise ZeroDivisionError("Деление на ноль невозможно")
 
-    remainder = ''
+    dividend_bin = decimal_to_binary(dividend, BIT_WIDTH)
+    divisor_bin = decimal_to_binary(divisor, BIT_WIDTH)
+
     quotient = ''
-    i = 0
-    while i < len(dividend):
-        remainder += dividend[i]
-        i += 1
-        if binary_to_decimal(remainder) >= divisor:
+    remainder = ''
+    for bit in dividend_bin:
+        remainder += bit
+
+        if binary_to_decimal(remainder) >= binary_to_decimal(divisor_bin):
             quotient += '1'
-            remainder = subtract_in_additional_code(direct_to_decimal(remainder.zfill(BIT_WIDTH)),
-                                                    direct_to_decimal(str(divisor).zfill(BIT_WIDTH))).lstrip('0')
+            remainder = subtract_in_additional_code(
+                direct_to_decimal(remainder.zfill(BIT_WIDTH)),
+                direct_to_decimal(divisor_bin.zfill(BIT_WIDTH))
+            ).lstrip('0')
         else:
             quotient += '0'
 
-    quotient = quotient.lstrip('0')
-    quotient = quotient.zfill(7)
+    quotient = quotient[1:]
+    quotient = quotient.zfill(BIT_WIDTH - 1)
     result.append(quotient)
     result.append('.')
 
     fractional_part = ''
-    while len(fractional_part) < precision:
-        remainder = remainder.zfill(BIT_WIDTH)
+    for _ in range(precision):
         remainder += '0'
-
-        if binary_to_decimal(remainder) >= divisor:
+        if binary_to_decimal(remainder) >= binary_to_decimal(divisor_bin):
             fractional_part += '1'
-            remainder = subtract_in_additional_code(direct_to_decimal(remainder),
-                                                    direct_to_decimal(str(divisor).zfill(BIT_WIDTH))).lstrip('0')
+            remainder = subtract_in_additional_code(
+                direct_to_decimal(remainder.zfill(BIT_WIDTH)),
+                direct_to_decimal(divisor_bin.zfill(BIT_WIDTH))
+            ).lstrip('0')
         else:
             fractional_part += '0'
 
