@@ -263,18 +263,14 @@ def get_literals_for_cell_group(cells, row_seqs, col_seqs, var_names, mode="sdnf
     return literals
 
 
-def get_expression_for_rectangles(rectangles, rows, cols, mode="sdnf"):
+def get_expression_for_rectangles(variables, rectangles, rows, cols, mode="sdnf"):
     if not rectangles:
         return "0" if mode == "sdnf" else "1"
 
     row_seqs = get_variable_sequences(rows)
     col_seqs = get_variable_sequences(cols)
 
-    var_names = []
-    for i in range(len(row_seqs)):
-        var_names.append(chr(ord('a') + i))
-    for i in range(len(col_seqs)):
-        var_names.append(chr(ord('a') + len(row_seqs) + i))
+    var_names = variables[:len(row_seqs) + len(col_seqs)]
 
     terms = []
     for group in rectangles:
@@ -314,7 +310,7 @@ def get_boolean_expression(matrix, variables, mode="sdnf"):
     else:
         rectangles = find_islands_torus(matrix, mode)
 
-    expression = get_expression_for_rectangles(rectangles, rows, cols, mode)
+    expression = get_expression_for_rectangles(variables, rectangles, rows, cols, mode)
     return expression
 
 
